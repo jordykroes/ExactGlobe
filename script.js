@@ -89,8 +89,7 @@ function toClipboard(event) {
   navigator.clipboard.writeText(text);
 }
 
-function toClipboardGroup(event) {
-  var sliceIndex = event.srcElement.getAttribute('sliceIndex');
+function toClipboardGroup(sliceIndex) {
   var output = document.getElementById("output");
   var groupSize = getLinesPerGroup();
   var text = cleanText(output.value);
@@ -171,8 +170,7 @@ function addGroupButtons(text) {
     var button = document.createElement("button");
     button.className = "btn btn-secondary";
     button.innerHTML = i + 1;
-    button.setAttribute("sliceIndex", i);
-    button.setAttribute("onclick", "toClipboardGroup(event)");
+    button.addEventListener('click', function() {toClipboardGroup(i)});
     container.appendChild(button);
   }
 }
