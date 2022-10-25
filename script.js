@@ -2,18 +2,38 @@ const defaultChunk = 80;
 const defaultGroupChunk = 5;
 
 const cookie = (e) => {
-   document.split('; ')
-  .find((row) => row.startsWith(`${e};`))
+  return document.cookie.split("; ").find((row) => row.startsWith(`${e};`));
 };
 
-function initialize() {
-  document.cookie = `defaultChunk=${defaultChunk}`;  
-  document.cookie = `defaultGroupChunk=${defaultGroupChunk}`;
-  
-  console.log(document.cookie);
-}
+// Create chunks of n-size based on smart regex
+const wrap = (s, w) =>
+  s.replace(new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"), "$1\n");
 
-initialize();
+const sliceChunks = (t, i, r) => {
+  return t.split('\r\n').slice(i * r, (i + 1) * r).join('\r\n');
+}
+ 
+document.addEventListener("load", (event) => {
+  initializeCookies();
+});
+
+function initializeCookies() {
+  if (cookie("defaultChunk") == false) {
+    document.cookie = `defaultChunk=${defaultChunk}`;
+    document.getElementById("inputPerLine").Value = defaultChunk;
+  } else {
+    document.getElementById("inputPerLine").Value = cookie("defaultChunk");
+  }
+
+  if (cookie("defaultGroupChunk") == false) {
+    document.cookie = `defaultGroupChunk=${defaultGroupChunk}`;
+    document.getElementById("inputPerGroup").Value = defaultGroupChunk;
+  } else {
+    document.getElementById("inputPerGroup").Value = cookie(
+      "defaultGroupChunk"
+    );
+  }
+}
 
 document.getElementById("input").addEventListener("keydown", function (e) {
   // Allow usage of tab key by preventing default
@@ -47,20 +67,16 @@ function cleanText(text) {
     text = text.replace(/\t/gm, " ".repeat(3));
   }
 
-  // Create chunks of n-size based on smart regex
-  const wrap = (s, w) => s.replace(
-    new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, 'g'), '$1\n'
-  );
-  
-  text = wrap(text, getCharactersPerLine());
-
+  if (getCharactersPerLine() > 0) {
+    text = wrap(text, getCharactersPerLine());
+  }
   return text;
 }
 
 function process(event) {
   var output = document.getElementById("output");
   var text = cleanText(event.srcElement.value);
-  
+
   output.value = text;
   addGroupButtons(text);
   updateLines();
@@ -69,8 +85,20 @@ function process(event) {
 function toClipboard(event) {
   var output = document.getElementById("output");
   var text = cleanText(output.value);
-  navigator.clipboard.writeText(text);
   showToast(text);
+  navigator.clipboard.writeText(text);
+}
+
+function toClipboardGroup(event) {
+  var sliceIndex = event.srcElement.getAttribute('sliceIndex');
+  var output = document.getElementById("output");
+  var groupSize = getLinesPerGroup();
+  var text = cleanText(output.value);
+  text = sliceChunks(text, sliceIndex, groupSize);
+
+  showToast(text);
+  navigator.clipboard.writeText(text);
+  
 }
 
 function updateLines() {
@@ -80,7 +108,7 @@ function updateLines() {
 
   var lines = output.value.split("\n").length;
   var characters = 0;
-  
+
   if (lines == 1) {
     characters = output.value.length;
   } else {
@@ -92,8 +120,8 @@ function updateLines() {
 }
 
 function getCharactersPerLine() {
-  var chunkSize = document.getElementById("inputPerLine")
-  
+  var chunkSize = document.getElementById("inputPerLine");
+
   if (!isNaN(parseInt(chunkSize.value))) {
     return chunkSize.value;
   } else {
@@ -103,8 +131,8 @@ function getCharactersPerLine() {
 }
 
 function getLinesPerGroup() {
-var chunkSize = document.getElementById("inputPerGroup")
-  
+  var chunkSize = document.getElementById("inputPerGroup");
+
   if (!isNaN(parseInt(chunkSize.value))) {
     return chunkSize.value;
   } else {
@@ -122,39 +150,41 @@ function isTabConversion() {
 }
 
 function swap(event) {
-  document.getElementById("input").value = document.getElementById("output").value;
+  document.getElementById("input").value = document.getElementById(
+    "output"
+  ).value;
 }
 
 function addGroupButtons(text) {
   var container = document.getElementById("buttonGroup");
-  container.innerHTML = "<h5>Copy in parts</h5>"
-  
+  container.innerHTML = "<h5>Copy in parts</h5>";
+
   if (text == "") {
     return;
   }
-  
+
   var output = document.getElementById("output");
   var groupSize = getLinesPerGroup();
   var lines = output.value.split("\n").length;
-  
+
   for (let i = 0; i < Math.ceil(lines / groupSize); i++) {
-      var button = document.createElement("button")
-      button.className = "btn btn-secondary";
-      button.innerHTML = i + 1;
-      button.setAttribute('sliceIndex', i);
-      
-      container.appendChild(button);
+    var button = document.createElement("button");
+    button.className = "btn btn-secondary";
+    button.innerHTML = i + 1;
+    button.setAttribute("sliceIndex", i);
+    button.setAttribute("onclick", "toClipboardGroup(event)");
+    container.appendChild(button);
   }
 }
 
 function showToast(text) {
-   var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-   var toastText = document.getElementById("toast-text");
-   toastText.innerHTML = text.slice(0, 59) + "..."; 
+  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+  var toastText = document.getElementById("toast-text");
+  toastText.innerHTML = text.slice(0, 59) + "...";
 
-   var toastList = toastElList.map(function(toastEl) {
-   // Creates an array of toasts (it only initializes them)
-      return new bootstrap.Toast(toastEl) // No need for options; use the default options
-   });
-   toastList.forEach(toast => toast.show()); // This show them
+  var toastList = toastElList.map(function (toastEl) {
+    // Creates an array of toasts (it only initializes them)
+    return new bootstrap.Toast(toastEl); // No need for options; use the default options
+  });
+  toastList.forEach((toast) => toast.show()); // This show them
 }
