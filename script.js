@@ -37,7 +37,7 @@ function initializeCookies() {
 
 document.getElementById("buttonGroup").addEventListener("click", function (e) {
   console.log(e);
-}
+});
  
 document.getElementById("input").addEventListener("keydown", function (e) {
   // Allow usage of tab key by preventing default
