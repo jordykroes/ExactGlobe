@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h6 id="lines">Text lines: 0</h6>
+      <h6 id="char">Characters: 0</h6>
+    </div>
+    <div class="col d-flex justify-content-center">
+      <img src="https://start.exactonline.nl/images/exact-logo-red.svg"></img>
+    </div>
+    <div class="col d-flex align-items-end flex-column">
+      <span>Convert tabs to three spaces <input id="inputTabs" checked="true" type="checkbox"></input></span>
+      <span>Characters per line <input id="inputPerLine" checked="true" type="input" value ="80"></input></span>
+      <span>Lines per part <input id="inputPerGroup" checked="true" type="input" value ="5"></input></span>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <h1>Input</h1>
+  </div>
+  <div class="row">
+    <textarea wrap="hard" onchange="process(event)" id="input"></textarea>
+  </div>
+  <div class="row">
+    <h1>Output</h1>
+    <div class="col d-flex justify-content-start">
+      <button type="button" class="btn btn-primary" onclick="swap(event)">Swap</button> 
+      <button type="button" class="btn btn-primary" onclick="toClipboard(event)">Copy all to clipboard</button>
+    </div>
+  </div>
+  <div class="row">
+    <textarea wrap="hard" disabled id="output"></textarea>
+  </div>
+  <div class="row">
+    <div id="buttonGroup" class="justify-content-start">
+    </div>
+  </div>
+</div>
+
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Exact</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Copied to clipboard.
+    </div>
+    <div id="toast-text" class="toast-body">
+      ...
+    </div>
+  </div>
+</div>
