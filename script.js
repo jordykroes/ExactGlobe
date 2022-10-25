@@ -35,6 +35,10 @@ function initializeCookies() {
   }
 }
 
+document.getElementById("buttonGroup").addEventListener("click", function (e) {
+  console.log(e);
+}
+ 
 document.getElementById("input").addEventListener("keydown", function (e) {
   // Allow usage of tab key by preventing default
   if (e.key == "Tab") {
@@ -170,7 +174,6 @@ function addGroupButtons(text) {
     var button = document.createElement("button");
     button.className = "btn btn-secondary";
     button.innerHTML = i + 1;
-    button.addEventListener('click', function() {toClipboardGroup(i)});
     container.appendChild(button);
   }
 }
