@@ -81,9 +81,28 @@ function process() {
     transform.applyTabsToSpaces(3);
   }
 
-  transform.applyWrap(document.getElementById("inputPerLine").value);
+  
   transform.applyCRLF();
   transform.applyIndentTransform();
 
+  transform.applyWrap(document.getElementById("inputPerLine").value);
+
   document.getElementById("outputField").value = transform.getText();
+
+  createCopyButtons(transform);
+}
+
+function createCopyButtons(text) {
+  var container = document.getElementById("buttonGroup");
+  var size = Number.parseInt(Cookie.getCookie(Cookie.jar[2]));
+  var lines = text.getNewLines();
+
+  container.innerHTML = "";
+
+  for (let i = 0; i < (Math.ceil(lines / size)); i++) {
+    var node = document.createElement('div');
+    node.classList.add("p-2")
+    node.innerHTML = (i + 1);
+    container.appendChild(node);
+  }
 }

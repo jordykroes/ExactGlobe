@@ -30,3 +30,11 @@ img {
   min-width: 1em;
   text-align: center;
 }
+
+.partialCopy:not(:first-child) {
+  margin-left: 2px;
+
+  &:last-child{
+    flex-grow: 5;
+ }
+}

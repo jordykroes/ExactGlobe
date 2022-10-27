@@ -4,7 +4,10 @@ class Transformer {
     }
 
     applyWrap(length) {
-        this.inputText = this.inputText.replace(new RegExp(`(?![^\\n]{1,${length}}$)([^\\n]{1,${length}})\\s`, "g"), "$1\n")
+        // Wrap based on length
+        this.inputText = this.inputText.replace(new RegExp(`(?![^\\n]{1,${length}}$)([^\\n]{1,${length}})\\s`, "g"), "$1\n");
+        // Remove space before new line
+        this.inputText.replace(/(\s*)(?=\n|\z)/, "");
     }
 
     getCharacterLength(x) {
