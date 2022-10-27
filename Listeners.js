@@ -1,4 +1,8 @@
+// Initialize default values
 Cookie.setupCookies();
+
+document.getElementById("inputPerLine").value = Cookie.getCookie(Cookie.jar[1]);
+document.getElementById("inputPerGroup").value = Cookie.getCookie(Cookie.jar[2]);
 
 // Text area listeners
 document.getElementById("inputField").addEventListener("keydown", function (e) {
@@ -19,22 +23,23 @@ document.getElementById("inputField").addEventListener("keyup", function () {
 
 // Config listeners
 document.getElementById("inputTabs").addEventListener("change", function (e) {
+  Cookie.setCookie(Cookie.jar[0], e.target.checked);
   process();
 });
 
 document.getElementById("inputPerLine").addEventListener("change", function (e) {
-  if (isNaN(e.target.value)) {
-    Cookie.setCookie(Cookie.jar[0], (e.target).value);
+  if (!isNaN(Number.parseInt(e.target.value))) {
+    Cookie.setCookie(Cookie.jar[1], e.target.value);
   }
-  e.target.value = Cookie.getCookie(Cookie.jar[0]);
+  e.target.value = Cookie.getCookie(Cookie.jar[1]);
   process();
 });
 
 document.getElementById("inputPerGroup").addEventListener("change", function (e) {
-  if (isNaN(e.target.value)) {
-    Cookie.setCookie(Cookie.jar[1], e.target.value);
+  if (!isNaN(Number.parseInt(e.target.value))) {
+    Cookie.setCookie(Cookie.jar[2], e.target.value);
   }
-  e.target.value = Cookie.getCookie(Cookie.jar[1]);
+  e.target.value = Cookie.getCookie(Cookie.jar[2]);
   process();
 });
 
@@ -57,7 +62,7 @@ document.getElementById("copyButton").addEventListener("click", function () {
 function showToast(text) {
   var toastElList = [].slice.call(document.querySelectorAll(".toast"));
   var toastText = document.getElementById("toast-text");
-  toastText.innerHTML = text.slice(0, 59) + "...";
+  toastText.innerHTML = text.slice(0, 59);
 
   var toastList = toastElList.map(function (toastEl) {
     // Creates an array of toasts (it only initializes them)
@@ -75,6 +80,10 @@ function process() {
   if (document.getElementById("inputTabs").checked) {
     transform.applyTabsToSpaces(3);
   }
+
+  transform.applyWrap(document.getElementById("inputPerLine").value);
+  transform.applyCRLF();
+  transform.applyIndentTransform();
 
   document.getElementById("outputField").value = transform.getText();
 }

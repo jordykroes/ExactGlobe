@@ -7,12 +7,17 @@ class Transformer {
         this.inputText = this.inputText.replace(new RegExp(`(?![^\\n]{1,${length}}$)([^\\n]{1,${length}})\\s`, "g"), "$1\n")
     }
 
+    getCharacterLength(x) {
+        return [...x].length;
+    }
+
     applyTabsToSpaces(repetition) {
         this.inputText = this.inputText.replace(/\t/gm, " ".repeat(repetition));
     }
 
     applyIndentTransform() {
-        this.inputText = this.inputText.replace(/\uF02D/gm, "   > ");
+        this.inputText = this.inputText.replace(/\uF0E0/gm, " > ");
+        this.inputText = this.inputText.replace(/\uF02D/gm, " > ");
     }
 
     applyCRLF() {

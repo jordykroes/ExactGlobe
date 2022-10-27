@@ -1,5 +1,3 @@
-
-
 class Cookie {
     constructor()
     {
@@ -14,15 +12,25 @@ class Cookie {
             }
         }
     }
+    static convertSpaces = true;
     static sliceLength = 10;
     static wrapLength = 80;
-    static jar = ['wrapLength', 'sliceLength'];
+
+    static jar = ['convertSpaces', 'wrapLength', 'sliceLength'];
 
     static setCookie(cookie, value) {
-        document.cookie = `${cookie}=${value}`;
+        document.cookie = `${cookie}=${value};samesite=strict`;
     }
 
     static getCookie(cookie) {
-        return document.cookie.split("; ").find((row) => row.startsWith(`${cookie}`)).split("=")[1];
+        var cookies = document.cookie.split("; ");
+        var foundCookie = cookies.find((row) => row.startsWith(`${cookie}`));
+        
+        if (!foundCookie) {
+            return undefined
+        }
+        else {
+            return foundCookie.split("=")[1];
+        }
     }
 }
