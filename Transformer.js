@@ -57,6 +57,6 @@ class Transformer {
 
     toClipboard()
     {
-        navigator.clipboard.writeText(this.inputTex);
+        navigator.clipboard.writeText(this.inputText);
     }
 }
