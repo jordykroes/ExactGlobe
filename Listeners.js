@@ -1,6 +1,7 @@
 // Initialize default values
 Cookie.setupCookies();
 
+document.getElementById("inputTabs").checked = (Cookie.getCookie(Cookie.jar[0]) === 'true');
 document.getElementById("inputPerLine").value = Cookie.getCookie(Cookie.jar[1]);
 document.getElementById("inputPerGroup").value = Cookie.getCookie(Cookie.jar[2]);
 
@@ -17,17 +18,17 @@ document.getElementById("inputField").addEventListener("keydown", function (e) {
   }
 });
 
-document.getElementById("inputField").addEventListener("keyup", function () {
+document.getElementById("inputField").addEventListener("keyup", () => {
   process();
 });
 
 // Config listeners
-document.getElementById("inputTabs").addEventListener("change", function (e) {
+document.getElementById("inputTabs").addEventListener("change", (e) => {
   Cookie.setCookie(Cookie.jar[0], e.target.checked);
   process();
 });
 
-document.getElementById("inputPerLine").addEventListener("change", function (e) {
+document.getElementById("inputPerLine").addEventListener("change", (e) => {
   if (!isNaN(Number.parseInt(e.target.value))) {
     Cookie.setCookie(Cookie.jar[1], e.target.value);
   }
@@ -35,7 +36,7 @@ document.getElementById("inputPerLine").addEventListener("change", function (e) 
   process();
 });
 
-document.getElementById("inputPerGroup").addEventListener("change", function (e) {
+document.getElementById("inputPerGroup").addEventListener("change", (e) => {
   if (!isNaN(Number.parseInt(e.target.value))) {
     Cookie.setCookie(Cookie.jar[2], e.target.value);
   }
@@ -44,7 +45,7 @@ document.getElementById("inputPerGroup").addEventListener("change", function (e)
 });
 
 // Button listeners
-document.getElementById("swapButton").addEventListener("click", function () {
+document.getElementById("swapButton").addEventListener("click", () => {
   document.getElementById("inputField").value = document.getElementById(
     "outputField"
   ).value;
@@ -52,11 +53,23 @@ document.getElementById("swapButton").addEventListener("click", function () {
   showToast("Output has been swapped to input");
 })
 
-document.getElementById("copyButton").addEventListener("click", function () {
+document.getElementById("copyButton").addEventListener("click", () => {
   var transform = new Transformer(document.getElementById("inputField").value);
   transform.toClipboard();
   showToast('Copied text:<br>' + transform.getText().slice(0, 60));
 })
+
+document.getElementById("buttonGroup").addEventListener("click", (e) => {
+  if (e.target.className === "copyButton") {
+    var index = Number.parseInt(e.target.innerHTML);
+    var row = Cookie.getCookie(Cookie.jar[2]);
+
+    var transform = new Transformer(document.getElementById("outputField").value);
+    var partialText = transform.getSlice(index - 1, row);
+    navigator.clipboard.writeText(partialText);
+    showToast(partialText);
+  }
+});
 
 // Functions
 function showToast(text) {
@@ -64,7 +77,7 @@ function showToast(text) {
   var toastText = document.getElementById("toast-text");
   toastText.innerHTML = text.slice(0, 59);
 
-  var toastList = toastElList.map(function (toastEl) {
+  var toastList = toastElList.map((toastEl) => {
     // Creates an array of toasts (it only initializes them)
     return new bootstrap.Toast(toastEl); // No need for options; use the default options
   });
@@ -101,7 +114,7 @@ function createCopyButtons(text) {
 
   for (let i = 0; i < (Math.ceil(lines / size)); i++) {
     var node = document.createElement('div');
-    node.classList.add("p-2")
+    node.classList.add('copyButton');
     node.innerHTML = (i + 1);
     container.appendChild(node);
   }

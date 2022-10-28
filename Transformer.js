@@ -52,7 +52,7 @@ class Transformer {
     }
 
     getSlice(index, linesPerSlice) {
-        return this.inputText.split('\r\n').slice(index * linesPerSlice, (index + 1) * rlinesPerSlice).join('\r\n');
+        return this.inputText.split('\n').slice(index * linesPerSlice, (index + 1) * linesPerSlice).join('\r\n');
     }
 
     toClipboard()
