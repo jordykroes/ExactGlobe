@@ -6,7 +6,7 @@ button:not(:first-child) {
   margin-left: 5px;
 }
 
-#inputPerGroup, #inputPerLine {
+#settingWrap, #settingGroup {
   max-width: 50px;
   text-align: right;
 }

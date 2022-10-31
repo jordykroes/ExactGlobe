@@ -1,121 +1,95 @@
-// Initialize default values
-Cookie.setupCookies();
-
-document.getElementById("inputTabs").checked = (Cookie.getCookie(Cookie.jar[0]) === 'true');
-document.getElementById("inputPerLine").value = Cookie.getCookie(Cookie.jar[1]);
-document.getElementById("inputPerGroup").value = Cookie.getCookie(Cookie.jar[2]);
-
-// Text area listeners
+const IsNumerical = /^[0-9]+$/;
+function Initialize() {
+    Cookie.setupCookies();
+    let node = document.getElementById("settingTabs");
+    node.checked = Cookie.getCookie(BrowserCookies.ConvertTabs) === 'true';
+    node = document.getElementById("settingWrap");
+    node.value = Cookie.getCookie(BrowserCookies.WrapLength);
+    node = document.getElementById("settingGroup");
+    node.value = Cookie.getCookie(BrowserCookies.SliceLength);
+}
+Initialize();
 document.getElementById("inputField").addEventListener("keydown", function (e) {
-  // Allow usage of tab key by preventing default
-  if (e.key == "Tab") {
-    e.preventDefault();
-    var start = this.selectionStart;
-    var end = this.selectionEnd;
-    this.value =
-      this.value.substring(0, start) + "\t" + this.value.substring(end);
-    this.selectionStart = this.selectionEnd = start + 1;
-  }
+    // Allow usage of tab key by preventing default
+    if (e.key == "Tab") {
+        e.preventDefault();
+        const node = this;
+        const start = node.selectionStart;
+        const end = node.selectionEnd;
+        node.value = node.value.substring(0, start) + "\t" + node.value.substring(end);
+        node.selectionStart = node.selectionEnd = start + 1;
+    }
 });
-
 document.getElementById("inputField").addEventListener("keyup", () => {
-  process();
+    process();
 });
-
-// Config listeners
-document.getElementById("inputTabs").addEventListener("change", (e) => {
-  Cookie.setCookie(Cookie.jar[0], e.target.checked);
-  process();
+document.getElementById("settingTabs").addEventListener("change", (e) => {
+    const node = e.target;
+    Cookie.setCookie(BrowserCookies.ConvertTabs, String(node.checked));
+    process();
 });
-
-document.getElementById("inputPerLine").addEventListener("change", (e) => {
-  if (!isNaN(Number.parseInt(e.target.value))) {
-    Cookie.setCookie(Cookie.jar[1], e.target.value);
-  }
-  e.target.value = Cookie.getCookie(Cookie.jar[1]);
-  process();
+document.getElementById("settingWrap").addEventListener("change", (e) => {
+    const node = e.target;
+    if (IsNumerical.test(node.value)) {
+        Cookie.setCookie(BrowserCookies.WrapLength, node.value);
+    }
+    node.value = Cookie.getCookie(BrowserCookies.WrapLength);
+    process();
 });
-
-document.getElementById("inputPerGroup").addEventListener("change", (e) => {
-  if (!isNaN(Number.parseInt(e.target.value))) {
-    Cookie.setCookie(Cookie.jar[2], e.target.value);
-  }
-  e.target.value = Cookie.getCookie(Cookie.jar[2]);
-  process();
+document.getElementById("settingGroup").addEventListener("change", (e) => {
+    const node = e.target;
+    if (IsNumerical.test(node.value)) {
+        Cookie.setCookie(BrowserCookies.SliceLength, node.value);
+    }
+    node.value = Cookie.getCookie(BrowserCookies.SliceLength);
+    process();
 });
-
-// Button listeners
 document.getElementById("swapButton").addEventListener("click", () => {
-  document.getElementById("inputField").value = document.getElementById(
-    "outputField"
-  ).value;
-
-  showToast("Output has been swapped to input");
-})
-
-document.getElementById("copyButton").addEventListener("click", () => {
-  var transform = new Transformer(document.getElementById("inputField").value);
-  transform.toClipboard();
-  showToast('Copied text:<br>' + transform.getText().slice(0, 60));
-})
-
-document.getElementById("buttonGroup").addEventListener("click", (e) => {
-  if (e.target.className === "copyButton") {
-    var index = Number.parseInt(e.target.innerHTML);
-    var row = Cookie.getCookie(Cookie.jar[2]);
-
-    var transform = new Transformer(document.getElementById("outputField").value);
-    var partialText = transform.getSlice(index - 1, row);
-    navigator.clipboard.writeText(partialText);
-    showToast(partialText);
-  }
+    const inputNode = document.getElementById("inputField");
+    const outputNode = document.getElementById("outputField");
+    inputNode.value = outputNode.value;
 });
-
-// Functions
-function showToast(text) {
-  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-  var toastText = document.getElementById("toast-text");
-  toastText.innerHTML = text.slice(0, 59);
-
-  var toastList = toastElList.map((toastEl) => {
-    // Creates an array of toasts (it only initializes them)
-    return new bootstrap.Toast(toastEl); // No need for options; use the default options
-  });
-  toastList.forEach((toast) => toast.show());
-}
-
+document.getElementById("copyButton").addEventListener("click", () => {
+    const inputNode = document.getElementById("inputField");
+    const transform = new Transformer(inputNode.value);
+    transform.toClipboard();
+});
+document.getElementById("buttonGroup").addEventListener("click", (e) => {
+    const node = e.target;
+    if (node.className === "copyButton") {
+        const index = Number.parseInt(node.innerHTML);
+        const row = Number.parseInt(Cookie.getCookie(BrowserCookies.SliceLength));
+        const outputNode = document.getElementById("outputField");
+        var transform = new Transformer(outputNode.value);
+        var partialText = transform.getSlice(index - 1, row);
+        navigator.clipboard.writeText(partialText);
+    }
+});
 function process() {
-  var transform = new Transformer(document.getElementById("inputField").value);
-
-  document.getElementById("infoLines").innerHTML = `Text lines: ${transform.getNewLines()}`;
-  document.getElementById("infoCharacters").innerHTML = `Characters: ${transform.getCharacters()}`;
-
-  if (document.getElementById("inputTabs").checked) {
-    transform.applyTabsToSpaces(3);
-  }
-
-  
-  transform.applyCRLF();
-  transform.applyIndentTransform();
-
-  transform.applyWrap(document.getElementById("inputPerLine").value);
-
-  document.getElementById("outputField").value = transform.getText();
-
-  createCopyButtons(transform);
+    const inputNode = document.getElementById("inputField");
+    const transform = new Transformer(inputNode.value);
+    document.getElementById("infoLines").innerHTML = `Text lines: ${transform.getNewLines()}`;
+    document.getElementById("infoCharacters").innerHTML = `Characters: ${transform.getCharacters()}`;
+    if (document.getElementById("settingTabs").checked) {
+        transform.applyTabsToSpaces(3);
+    }
+    transform.applyCRLF();
+    transform.applyIndentTransform();
+    const settingNode = document.getElementById("settingWrap");
+    transform.applyWrap(Number.parseInt(settingNode.value));
+    const outputNode = document.getElementById("outputField");
+    outputNode.value = transform.getText();
+    createCopyButtons(transform);
 }
-
 function createCopyButtons(text) {
-  var container = document.getElementById("buttonGroup");
-  var size = Number.parseInt(Cookie.getCookie(Cookie.jar[2]));
-  var lines = text.getNewLines();
-
-  container.innerHTML = "";
-
-  for (let i = 0; i < (Math.ceil(lines / size)); i++) {
-    var node = document.createElement('div');
-    node.classList.add('copyButton');
-    node.innerHTML = (i + 1);
-    container.appendChild(node);
-  }
+    var container = document.getElementById("buttonGroup");
+    var size = Number.parseInt(Cookie.getCookie(BrowserCookies.SliceLength));
+    var lines = text.getNewLines();
+    container.innerHTML = "";
+    for (let i = 0; i < (Math.ceil(lines / size)); i++) {
+        var node = document.createElement('div');
+        node.classList.add('copyButton');
+        node.innerHTML = String(i + 1);
+        container.appendChild(node);
+    }
 }
