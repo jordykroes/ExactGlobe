@@ -101,3 +101,16 @@ function getSlicedText(node) {
     const transform = new Transformer(outputNode.value);
     return transform.getSlice(index - 1, row);
 }
+document.getElementById('saveButton').addEventListener('click', () => {
+    const node = document.getElementById('outputField');
+    const blob = new Blob([node.value], { type: 'text/html' });
+    saveAs(blob, 'export.txt');
+});
+const saveAs = (blob, name) => {
+    const a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+    a.download = name;
+    a.rel = 'noopener';
+    a.href = URL.createObjectURL(blob);
+    setTimeout(() => URL.revokeObjectURL(a.href), 40 /* sec */ * 1000);
+    setTimeout(() => a.click(), 0);
+};
