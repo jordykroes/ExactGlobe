@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Exact Globe Long Text Description Converter</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h6 id="infoLines">Text lines: 0</h6>
+        <h6 id="infoCharacters">Characters: 0</h6>
+      </div>
+      <div class="col d-flex justify-content-center">
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTY4LjQiIGhlaWdodD0iMzUuOCIgdmlld0JveD0iMCAwIDg0MiAxNzkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTExMi45NyA1OC4zNDhIMHYzMy43OTRoMTI4LjU3NFY1OC4zNDhIMTEyLjk3em0tMS4zNTQgNTguMzQ1SDB2MzMuNzk0aDE2Ljk1OHYtLjAwMWg5NC42NTh2LjAwMWgxNi45NTh2LTMzLjc5NGgtMTYuOTU4em00NTQuNDAxIDI5LjU2OGgtNTAuNjljLTguNDQ3IDAtMTMuNDY1LTQuNDkyLTEzLjQ2NS0xMi42NzcgMC04LjE4MSA1LjAxOC0xMi42NjggMTMuNDY1LTEyLjY2OGg1MC42OXYyNS4zNDV6TTU0Mi41MjEgMjkuMDQ1aC00Ni44Nzh2LS4wMDFoLTIwLjczNHYzMy43OTFoMjAuNzM0di0uMDAxaDQ0Ljc2MWMyMC4wMzIgMCAyNS40NDggNy42OTQgMjUuNjAzIDI1LjM0Nkg1MTMuNzRjLTMwLjg4NyAwLTQ3Ljc4NCAxNS44NC00Ny43ODQgNDUuNDA0IDAgMjkuMzEgMTYuODk3IDQ1LjQxNCA0Ny43ODQgNDUuNDE0aDgyLjExbC4wMzItLjAwMmg2LjU2NnYtOTIuMTNjMC0zOS4wNzktMTQuNzg1LTU3LjgyMS01OS45MjctNTcuODIxek03MzIuNDUgMTQ1LjIwNGgtNDIuNTAzYy0yMi45NyAwLTMxLjQyNC0xMS4wODYtMzEuNDI0LTQxLjE4MSAwLTMwLjA5NCA4LjQ1NC00MS4xODUgMzEuNDI0LTQxLjE4NWg0MS45NzNsLjA2NS0uMDAzaDYuNTU2VjI5LjA0NGgtNTIuMjkzYy00Ni43MjQgMC02NC42ODEgMjMuMjMzLTY0LjY4MSA3NC45NzkgMCA1MS43NDIgMTcuOTU3IDc0Ljk3MyA2NC42ODEgNzQuOTczaDUyLjc5NnYtMzMuNzkxaC02LjU2MmwtLjAzMi0uMDAxem0tNDYyLjU2Mi4wMDFoLTM5Ljk5MmMtMTkuMDkyIDAtMjcuOTYzLTYuNzU4LTMwLjQxNy0yMy43NTNoNTkuMDN2LjAyMmgyMC43MzJ2LTYuMDIxYy4wMTQtLjIuMDI2LS40MDEuMDI2LS42MDlWOTQuMjUzYzAtLjIwNy0uMDEyLS40MDktLjAyNi0uNjA5di01Ljk2MWgtNS44MjdhOC42ODUgOC42ODUgMCAwIDAtLjc0Ny0uMDMzaC03My4zMjRjMi4yNTQtMTcuNjA3IDExLjEwMS0yNC44MTUgMzAuNTUzLTI0LjgxNWg2MC4xOTRWMjkuMDQ0aC0xOC4wOTl2LjAwM2gtNDUuNzg5Yy00Ni43MzMgMC02NC42NzcgMjMuMjI4LTY0LjY3NyA3NC45NzMgMCA1MS43NDEgMTcuOTQ0IDc0Ljk3OSA2NC42NzcgNzQuOTc5aDU3LjgxOWMuMDIyIDAgLjA0My0uMDAyLjA2NS0uMDAzaDYuNTM1di0zMy43OTFoLTIwLjczM3ptNTY1LjM5OCAwSDgwNS45OGMtNy4xMjUgMC0xMS4zNTgtNS4wMTItMTEuMzU4LTEzLjk5di02OC4zOGg0NC4wOTFWMjkuMDQ3aC00NC4wOTFWLjUyOWgtMzYuNDI2djEzMy4zMjNjMCAzMC44OTQgMTQuNTIxIDQ1LjE0NyA0NC42MTYgNDUuMTQ3aDMyLjQ3NGwuMDY2LS4wMDNoNi41Mzh2LTMzLjc5MWgtNi42MDR6bS0zNzguMzgyIDI2LjkzMWwtNTMuMzIzLTcwLjM4MSA0OS44OTMtNjUuODQ4di0uMDAxbDUuMTk5LTYuODYyaC00Mi43ODdsLTMuNTk3IDQuNzQ5LS4wMDEuMDAxLTMwLjA5NSAzOS43MjUtMzAuMS0zOS43MjUtLjAwMS0uMDAyLTMuNTk4LTQuNzQ4aC00NC4zNjdsNTUuODc5IDczLjc1OC01Ny43MjkgNzYuMTk3IDE0LjU3NS0uMDAzaDI4LjIxMWwzLjU5OC00Ljc0Ny4wMDItLjAwMiAzMi43MzctNDMuMjA5IDMyLjczOCA0My4yMDl2LjAwMWwzLjU5OCA0Ljc0OGg0NC4zNjdsLTUuMTk5LTYuODZ6IiBmaWxsPSIjRTExNDFEIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48L3N2Zz4="></img>
+      </div>
+      <div class="col d-flex align-items-end flex-column">
+        <span>Convert tabs to three spaces <input id="settingTabs" type="checkbox"></input></span>
+        <span>Characters per line <input id="settingWrap" type="input"></input></span>
+        <span>Lines per part <input id="settingGroup" type="input"></input></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <h1>Input</h1>
+    </div>
+    <div class="row">
+      <textarea id="inputField" wrap="hard"></textarea>
+    </div>
+    <div class="row">
+      <h1>Output</h1>
+      <div class="col d-flex justify-content-start">
+        <button type="button" id="swapButton" class="btn btn-primary">
+          <img
+            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIxNXB4IiB2aWV3Qm94PSIwIDAgMjAgMTUiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUyLjUgKDY3NDY5KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5zd2FwX2NhbGxzPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9Ikljb25zIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iUm91bmRlZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTIzOC4wMDAwMDAsIC0xMjY0LjAwMDAwMCkiPgogICAgICAgICAgICA8ZyBpZD0iQ29tbXVuaWNhdGlvbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAwLjAwMDAwMCwgMTE2Mi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSItUm91bmQtLy1Db21tdW5pY2F0aW9uLS8tc3dhcF9jYWxscyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTM2LjAwMDAwMCwgOTguMDAwMDAwKSI+CiAgICAgICAgICAgICAgICAgICAgPGc+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJQYXRoIiBwb2ludHM9IjAgMCAyNCAwIDI0IDI0IDAgMjQiPjwvcG9seWdvbj4KICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTE3LjY1LDQuMzUgTDE0Ljg2LDcuMTQgQzE0LjU0LDcuNDYgMTQuNzYsOCAxNS4yMSw4IEwxNyw4IEwxNywxNC44OCBDMTcsMTUuODggMTYuMzMsMTYuODEgMTUuMzQsMTYuOTcgQzE0LjA5LDE3LjE4IDEzLDE2LjIxIDEzLDE1IEwxMyw4LjE3IEMxMyw2LjA4IDExLjQ3LDQuMjIgOS4zOSw0LjAyIEM3LjAxLDMuNzkgNSw1LjY2IDUsOCBMNSwxNSBMMy4yMSwxNSBDMi43NiwxNSAyLjU0LDE1LjU0IDIuODYsMTUuODUgTDUuNjUsMTguNjQgQzUuODUsMTguODQgNi4xNiwxOC44NCA2LjM2LDE4LjY0IEw5LjE1LDE1Ljg1IEM5LjQ2LDE1LjU0IDkuMjQsMTUgOC43OSwxNSBMNywxNSBMNyw4LjEyIEM3LDcuMTIgNy42Nyw2LjE5IDguNjYsNi4wMyBDOS45MSw1LjgyIDExLDYuNzkgMTEsOCBMMTEsMTQuODMgQzExLDE2LjkyIDEyLjUzLDE4Ljc4IDE0LjYxLDE4Ljk4IEMxNi45OSwxOS4yMSAxOSwxNy4zNCAxOSwxNSBMMTksOCBMMjAuNzksOCBDMjEuMjQsOCAyMS40Niw3LjQ2IDIxLjE0LDcuMTUgTDE4LjM1LDQuMzYgQzE4LjE2LDQuMTYgMTcuODQsNC4xNiAxNy42NSw0LjM1IFoiIGlkPSLwn5S5SWNvbi1Db2xvciIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+">
+          Swap</button>
+        <button type="button" id="copyButton" class="btn btn-primary">
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNy4xNDMiIHZpZXdCb3g9IjAgMCAxNSAxNy4xNDMiPjxwYXRoIGQ9Ik0xNC41MjksMi4yMDgsMTIuNzkyLjQ3MUExLjYwNywxLjYwNywwLDAsMCwxMS42NTYsMEg1Ljg5M0ExLjYwNywxLjYwNywwLDAsMCw0LjI4NiwxLjYwN1YzLjIxNEgxLjYwN0ExLjYwNywxLjYwNywwLDAsMCwwLDQuODIxVjE1LjUzNmExLjYwNywxLjYwNywwLDAsMCwxLjYwNywxLjYwN2g3LjVhMS42MDcsMS42MDcsMCwwLDAsMS42MDctMS42MDdWMTMuOTI5aDIuNjc5QTEuNjA3LDEuNjA3LDAsMCwwLDE1LDEyLjMyMVYzLjM0NGExLjYwNywxLjYwNywwLDAsMC0uNDcxLTEuMTM2Wm0tMi43NDQtMS4xMmEuNTMyLjUzMiwwLDAsMSwuMjQ5LjE0bDEuNzM3LDEuNzM3YS41MzIuNTMyLDAsMCwxLC4xNC4yNDlIMTEuNzg2Wk05LjY0MywxNS41MzZhLjUzNi41MzYsMCwwLDEtLjUzNi41MzZoLTcuNWEuNTM2LjUzNiwwLDAsMS0uNTM2LS41MzZWNC44MjFhLjUzNi41MzYsMCwwLDEsLjUzNi0uNTM2SDQuMjg2djguMDM2YTEuNjA3LDEuNjA3LDAsMCwwLDEuNjA3LDEuNjA3aDMuNzVabTQuMjg2LTMuMjE0YS41MzYuNTM2LDAsMCwxLS41MzYuNTM2aC03LjVhLjUzNi41MzYsMCwwLDEtLjUzNi0uNTM2VjEuNjA3YS41MzYuNTM2LDAsMCwxLC41MzYtLjUzNmg0LjgyMVYzLjQ4MmEuODA2LjgwNiwwLDAsMCwuOC44aDIuNDExWiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==">
+          Copy all to clipboard
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <textarea id="outputField" wrap="hard" disabled></textarea>
+    </div>
+    <div id="buttonGroup" class="row">
+    </div>
+  </div>
+
+  <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js'></script>
+  <script src="./Cookie.js"></script>
+  <script src="./Transformer.js"></script>
+  <script src="./Listeners.js"></script>
+</body>
+</html>
