@@ -104,3 +104,28 @@ img {
 .copyButton:hover .copyTooltip {
   visibility: visible;
 }
+
+#message-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: none;
+  background-color: #0a52bead;
+  border-radius: 10px;
+  color: white;
+  padding: 25px 50px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  animation-name: message;
+  animation-duration: 0.5s;
+  animation-delay: 0.7s;
+}
+
+.show {
+  display: block !important;
+}
+
+@keyframes message {
+  0%   {background-color: #0a52bead}
+  100% {background-color: #0a52be00;}
+}

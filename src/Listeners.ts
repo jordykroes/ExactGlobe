@@ -68,6 +68,7 @@ const NUMERICAL = /^[0-9]+$/;
       document.getElementById('outputField')
     );
     inputNode.value = outputNode.value;
+    message('Swapped text');
   });
 
   document.getElementById('copyButton').addEventListener('click', () => {
@@ -76,6 +77,7 @@ const NUMERICAL = /^[0-9]+$/;
     );
     const transform = new Transformer(inputNode.value);
     transform.toClipboard();
+    message('Copied to clipboard');
   });
 
   document.getElementById('buttonGroup').addEventListener('click', (e) => {
@@ -83,8 +85,16 @@ const NUMERICAL = /^[0-9]+$/;
 
     if (node.className === 'copyButton') {
       navigator.clipboard.writeText(getSlicedText(node));
+      message('Copied part to clipboard');
     }
   });
+
+  document.getElementById('saveButton').addEventListener('click', () => {
+    const node : HTMLInputElement = <HTMLInputElement> document.getElementById('outputField');
+    const blob : Blob = new Blob([node.value], {type: 'text/html'});
+    saveAs(blob, 'export.txt');
+    message('Downloaded');
+  })
 
   process();
 })();
@@ -118,7 +128,31 @@ function process() {
   createSliceButtons(transform);
 }
 
-function createSliceButtons(text) {
+function message(text: string) {
+  const container = document.getElementById('message-container');
+  const message = document.getElementById('message');
+
+  container.classList.add('show');
+  message.innerHTML = text;
+  setTimeout(hideMessage, 1250);
+}
+
+function hideMessage() {
+  const container = document.getElementById('message-container');
+  container.classList.remove('show');
+}
+
+const saveAs = (blob : Blob, name : string) => {
+  const a : any = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+  a.download = name
+  a.rel = 'noopener'
+  a.href = URL.createObjectURL(blob)
+
+  setTimeout(() => URL.revokeObjectURL(a.href), 40 /* sec */ * 1000)
+  setTimeout(() => a.click(), 0)
+}
+
+function createSliceButtons(text: Transformer) {
   const container = document.getElementById('buttonGroup');
   const size = Number.parseInt(Cookie.getCookie(BrowserCookies.SliceLength));
   const lines = text.getNewLines();
@@ -146,20 +180,4 @@ function getSlicedText(node : HTMLElement) {
   const outputNode = <HTMLInputElement>document.getElementById('outputField');
   const transform = new Transformer(outputNode.value);
   return transform.getSlice(index - 1, row);
-}
-
-document.getElementById('saveButton').addEventListener('click', () => {
-  const node : HTMLInputElement = <HTMLInputElement> document.getElementById('outputField');
-  const blob : Blob = new Blob([node.value], {type: 'text/html'});
-  saveAs(blob, 'export.txt');
-})
-
-const saveAs = (blob : Blob, name : string) => {
-  const a : any = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
-  a.download = name
-  a.rel = 'noopener'
-  a.href = URL.createObjectURL(blob)
-
-  setTimeout(() => URL.revokeObjectURL(a.href), 40 /* sec */ * 1000)
-  setTimeout(() => a.click(), 0)
 }
