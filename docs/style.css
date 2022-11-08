@@ -118,7 +118,7 @@ img {
   transform: translate(-50%, -50%);
   animation-name: message;
   animation-duration: 0.5s;
-  animation-delay: 0.7s;
+  animation-delay: 0.8s;
 }
 
 .show {
